@@ -1,0 +1,3 @@
+Distancia: 18.0km | Tempo: 1h 40min | Pace: 5.56 min/km
+Distancia: 5.0km | Tempo: 0h 20min | Pace: 4.00 min/km
+Distancia: 5.0km | Tempo: 0h 18min | Pace: 3.60 min/km
