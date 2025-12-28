@@ -2,15 +2,50 @@ import streamlit as st
 import pandas as pd
 import os
 from datetime import datetime
+import base64  # <--- Importante: Adicionamos essa biblioteca nova!
 
-# Configuração inicial
 st.set_page_config(page_title="Meu Tracker", page_icon="🏃‍♂️", layout="centered")
 
-# --- FUNÇÕES (iguais a antes) ---
+# --- FUNÇÃO PARA USAR FOTO LOCAL ---
+def set_background(image_file):
+    with open(image_file, "rb") as f:
+        data = f.read()
+    bin_str = base64.b64encode(data).decode()
+    page_bg_img = f"""
+    <style>
+    .stApp {{
+        background-image: url("data:image/png;base64,{bin_str}");
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
+    }}
+    /* Deixa os textos mais legíveis com um fundo semi-transparente nos blocos */
+    .stDataFrame, .stMetric, .stAlert {{
+        background-color: rgba(0, 0, 0, 0.7); 
+        border-radius: 10px;
+        padding: 10px;
+    }}
+    </style>
+    """
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+# Tenta carregar a imagem (troque 'fundo.jpg' pelo nome exato do seu arquivo!)
+# ... (código da função set_background acima) ...
+
+# 1. CORREÇÃO DA FOTO: Mude de .jpg para .jpeg
+try:
+    set_background('fundo.jpg') 
+except FileNotFoundError:
+    st.warning("Foto não encontrada!")
+
+# 2. CORREÇÃO DO ARQUIVO DE DADOS:
+# Adicione esta linha que sumiu! 👇
 ARQUIVO_DADOS = "dados_corridas.csv"
 
+# --- O RESTO DAS FUNÇÕES (NÃO MEXER) ---
 def carregar_dados():
-    if not os.path.exists(ARQUIVO_DADOS):
+    if not os.path.exists(ARQUIVO_DADOS): # Agora ele vai achar a variável!
+# ...
         return pd.DataFrame(columns=["Data", "Distancia_KM", "Tempo_Minutos", "Pace", "Calorias"])
     else:
         return pd.read_csv(ARQUIVO_DADOS)
